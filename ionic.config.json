@@ -1,0 +1,7 @@
+{
+  "name": "mobile-apps-tp4",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
