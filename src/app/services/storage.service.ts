@@ -9,7 +9,7 @@ export class StorageService {
 
   constructor() { }
 
-  async create(key:string, value:Pokemon[]){
+  async create(key:string, value:string){
     await Preferences.set({key,value});
   }
 
@@ -17,7 +17,7 @@ export class StorageService {
     return( await Preferences.get({key}));
   }
 
-  async update(key:string, value:Pokemon[]){
+  async update(key:string, value:string){
     await Preferences.set({key,value});
   }
 

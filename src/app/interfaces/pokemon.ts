@@ -1,6 +1,7 @@
 export interface Pokemon{
     id: string,
-    image:string,
+    name:string,
+    front_default:string,
     height:string,
     weight:string,
 }

@@ -18,7 +18,7 @@ export class TabsPage {
   pokeList: Pokemon[] = [];
   @ViewChild(IonModal)
   modal!: IonModal;
-  savePoke: boolean = true;
+  savePoke: boolean = false;
 
   constructor(public api:APIService, private storage:StorageService) {
     // this.pokemon = api.getPokemon(1)
@@ -30,36 +30,39 @@ export class TabsPage {
   }
 
   save(){
-    //falta condicion 
-    this.api.getPokemon(this.pokeNumber).then(r =>{
-      this.setStorage(r)
-    })
-   
+    if(!this.pokemon.find(p=>p.id == this.pokeNumber)) 
+    {
+      this.getStorage(this.pokeNumber)
+    }
   }
   //pokelist es la lista que se guiarda en el storage
 
   setStorage(poke:any){
-    let pokemon:Pokemon={id:poke.id, image:poke.sprites.front_default, height:poke.height, weight:poke.weight}
+    let pokemon:Pokemon={id:poke.id, name:poke.name ,front_default:poke.sprites.front_default, height:poke.height, weight:poke.weight}
     this.pokeList.push(pokemon)
-    this.storage.update("pokemon", this.pokeList)
+    
+    let list = JSON.stringify(this.pokeList)
+    this.storage.update("pokemon", list)
   }
 
   getStorage(number:any){
-    this.storage.read("pokemon").then((data=>{
-      if(data !== null){
-        data.value.forEach(p=>{
-          if(p.id === number){
-            this.savePoke = false
-            //Si esto pasa quiere decir que el pokemon ya existe dentro del storage, entonces no deberiamos pegarle a la api
-          }
-        })
+    let datos
+    this.storage.read("pokemon").then((data =>{
+      if(data != undefined){
+        datos = JSON.parse(data.value);
+        datos = datos != null ? datos.find((p: Pokemon) => p.id == number): null;
+        console.log(datos)
+        if(datos == null){
+          this.api.getPokemon(number).then(r =>{
+            this.setStorage(r)
+            this.pokemon.push(r)
+          }) 
+        }else{
+        this.pokemon.push(datos)
+        }
       }
+      
     }))
-    if(this.savePoke){
-      return true
-    }else{
-      return false
-    }
   }
  
 }
