@@ -1,3 +1,10 @@
+<ion-item class="input_container">
+  <ion-input type="number"  [(ngModel)]="pokeNumber"  placeholder="Ingrse un numero"></ion-input>
+  <ion-button (click)="save()">Buscar</ion-button>
+</ion-item>
+
+
+
 <ion-list>
   <ion-item *ngFor="let pokemon of pokemon">
     <ion-label id="open-modal{{pokemon.id}}" expand="block">Pokemon = {{pokemon.name}}</ion-label>
