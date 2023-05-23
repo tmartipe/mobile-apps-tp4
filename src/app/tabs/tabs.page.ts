@@ -20,12 +20,17 @@ export class TabsPage {
   @ViewChild(IonModal)
   modal!: IonModal;
   modalData! :Pokemon;
+  isModalOpen = false;
 
   constructor(public api: APIService, private storage: StorageService){
   }
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
 
   cancel() {
-    this.modal.isOpen = false;
+    this.modal.canDismiss = true;
+    this.setOpen(false);
   }
 
   save() {
@@ -49,8 +54,8 @@ export class TabsPage {
 
   updateModal(viewPokemon: Pokemon){
     this.modalData = viewPokemon;
-    this.modal.isOpen = true;
     this.modal.canDismiss = false;
+    this.setOpen(true)
   }
 
   savePokemonToStorage(apiPokemon: ApiPokemon){
