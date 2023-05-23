@@ -3,6 +3,7 @@ import {APIService} from '../services/api.service';
 import {IonModal} from '@ionic/angular';
 import {StorageService} from '../services/storage.service';
 import {Pokemon, ApiPokemon} from '../interfaces/pokemon';
+import { Toast } from '@capacitor/toast';
 
 
 // @ts-ignore
@@ -32,6 +33,19 @@ export class TabsPage {
       this.findPokemonByNumber(this.pokeNumber)
     }
   }
+
+  delete(id:number, name:string){
+    this.viewPokemonArray = this.viewPokemonArray.filter(p=>p.id != id)
+    this.showDeleteToast(name)
+  }
+
+  async showDeleteToast(name:string){
+    await Toast.show({
+      text: `${name} fue eliminado correctamente`,
+      position:'bottom',
+      duration: 'long'
+    });
+  };
 
   updateModal(viewPokemon: Pokemon){
     this.modalData = viewPokemon;
