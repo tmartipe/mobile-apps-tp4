@@ -18,17 +18,25 @@ export class TabsPage {
   savedPokemon: Pokemon[] = [];
   @ViewChild(IonModal)
   modal!: IonModal;
+  modalData! :Pokemon;
 
-  constructor(public api: APIService, private storage: StorageService){}
+  constructor(public api: APIService, private storage: StorageService){
+  }
 
   cancel() {
-    this.modal.dismiss(null, 'cancel');
+    this.modal.isOpen = false;
   }
 
   save() {
     if (!this.viewPokemonArray.find(p => p.id == this.pokeNumber)) {
       this.findPokemonByNumber(this.pokeNumber)
     }
+  }
+
+  updateModal(viewPokemon: Pokemon){
+    this.modalData = viewPokemon;
+    this.modal.isOpen = true;
+    this.modal.canDismiss = false;
   }
 
   savePokemonToStorage(apiPokemon: ApiPokemon){
@@ -44,8 +52,10 @@ export class TabsPage {
       if (storageData.value != undefined) {
         let savedPokes: Pokemon[] = JSON.parse(storageData.value!!);
         let pokemon = savedPokes.find((p: Pokemon) => p.id == pokeId);
-        if (pokemon != undefined)
+        if (pokemon != undefined){
           this.viewPokemonArray.push(pokemon)
+          return
+        }
       }
       this.api.getPokemon(pokeId).then(r=> {
         this.savePokemonToStorage(r as ApiPokemon)
