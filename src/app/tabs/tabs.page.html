@@ -1,40 +1,37 @@
 <ion-item class="input_container">
-  <ion-input type="number"  [(ngModel)]="pokeNumber"  placeholder="Ingrse un numero"></ion-input>
+  <ion-input type="number" [(ngModel)]="pokeNumber" placeholder="Ingrse un numero"></ion-input>
   <ion-button (click)="save()">Buscar</ion-button>
 </ion-item>
-
-
 
 <ion-list>
   <ion-item *ngFor="let pokemon of viewPokemonArray">
     <ion-label id="open-modal{{pokemon.id}}" expand="block">Pokemon = {{pokemon.name}}</ion-label>
     <ion-button (click)="delete(pokemon.id,pokemon.name)">Delete</ion-button>
+    <ion-label id="open-modal" expand="block" (click)="updateModal(pokemon)">Pokemon = {{pokemon.name}}</ion-label>
   </ion-item>
 </ion-list>
 
-<ion-content *ngFor="let pokemon of viewPokemonArray">
-  <ion-modal trigger="open-modal{{pokemon.id}}">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-button (click)="cancel()">Cancel</ion-button>
-          </ion-buttons>
-          <ion-title>{{pokemon.name}}</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <img src="{{pokemon.sprite}}">
-        <ion-item>
-          <ion-label>Id = {{pokemon.id}}</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Height = {{pokemon.height}}cm</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>Weight = {{pokemon.weight}}gr</ion-label>
-        </ion-item>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
-</ion-content>
+<ion-modal trigger="open-modal">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>{{modalData.name}}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <img src="{{modalData.sprite}}">
+      <ion-item>
+        <ion-label>Id = {{modalData.id}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Height = {{modalData.height}}cm</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Weight = {{modalData.weight}}gr</ion-label>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-modal>
