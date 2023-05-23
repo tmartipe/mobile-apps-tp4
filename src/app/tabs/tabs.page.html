@@ -8,6 +8,7 @@
 <ion-list>
   <ion-item *ngFor="let pokemon of viewPokemonArray">
     <ion-label id="open-modal{{pokemon.id}}" expand="block">Pokemon = {{pokemon.name}}</ion-label>
+    <ion-button (click)="delete(pokemon.id,pokemon.name)">Delete</ion-button>
   </ion-item>
 </ion-list>
 
